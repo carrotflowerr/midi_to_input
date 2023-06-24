@@ -1,11 +1,13 @@
 import time
 import rtmidi
 import os
+import configparser
 
-data_byte1 = 0  # 
-last_trigger_time = time.time()  # last trigger time
+data_byte1 = 0  # Initialize data_byte1
+last_trigger_time = time.time()  # Initialize the last trigger time
 
-DEBOUNCE_DELAY = 0.5  # Debounce delay
+DEBOUNCE_DELAY = 0.5  # Debounce delay in seconds
+CONFIG_FILE = "config.ini"
 
 def process_midi_message(message):
     global data_byte1
@@ -24,16 +26,15 @@ def macros(data_byte):
     global last_trigger_time
     current_time = time.time()
     if current_time - last_trigger_time >= DEBOUNCE_DELAY:
-        """
-        this is where your commands should go.
-        ex.
-        if data_byte == 112:
-            os.system("gnome-terminal")
-        elif data_byte == 113:
-            os.system("firefox")
-        elif data_byte == 114:
-            os.system("steam")
-        """
+        # Execute the macro commands
+        config = configparser.ConfigParser()
+        config.read(CONFIG_FILE)
+        if config.has_section("Commands"):
+            commands = dict(config.items("Commands"))
+            if str(data_byte) in commands:
+                command = commands[str(data_byte)]
+                os.system(command)
+
         last_trigger_time = current_time
 
 def main():
@@ -62,3 +63,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
