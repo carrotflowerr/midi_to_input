@@ -42,7 +42,7 @@ def main():
     # Print the available MIDI input ports
     print("Available MIDI input ports:")
     for port_number, port_name in enumerate(midi_in.get_ports()):
-        print(f"[{port_number}] {port_name}")
+        print("[%d] %s" % (port_number, port_name))  # Using the % operator
 
     # Choose the MIDI input port to listen to
     selected_port_number = int(input("Enter the port number of the MIDI input: "))
@@ -68,7 +68,6 @@ def main():
     except KeyboardInterrupt:
         os.system('clear')
         exit()
-
 
 if __name__ == "__main__":
     if not os.path.isfile(CONFIG_FILE):
