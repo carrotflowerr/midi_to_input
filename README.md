@@ -1,6 +1,7 @@
 # midi_to_input
-a simple script to let you run commands from your midi device. 
+a simple linux script to let you run commands from your midi device. 
 
+| use python3 |
 
 How to use:
 - Download python-rtmidi and update python
